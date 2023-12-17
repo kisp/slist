@@ -3,8 +3,6 @@ export interface Cons {
   percentcdr: any;
 }
 
-export function greeter(name: string): string;
-
 export function cons(a, b);
 export function car(x: Cons);
 export function cdr(x: Cons);
