@@ -1,6 +1,6 @@
 {
   "name": "tiny-slist",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple, singly-linked, scheme-like list implementation based on SRFI-1 for JavaScript and TypeScript.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,22 @@
     "url": "git+https://github.com/kisp/tiny-slist.git"
   },
   "keywords": [
-    "list"
+    "list",
+    "linkedlist",
+    "linked-list",
+    "circular-linked-list",
+    "datastructure",
+    "data-structure",
+    "srfi",
+    "lisp",
+    "scheme",
+    "functional",
+    "utils",
+    "utilities",
+    "toolkit",
+    "fp",
+    "pure",
+    "parenscript"
   ],
   "author": "Kilian Sprotte <kilian.sprotte@gmail.com>",
   "license": "MIT",
