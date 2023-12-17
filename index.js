@@ -8,7 +8,7 @@ function inBrowserP() {
 };
 
 function inNodeP() {
-    return !window;
+    return typeof window === 'undefined';
 };
 
 var util;
