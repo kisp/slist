@@ -11,15 +11,17 @@ function inNodeP() {
     return !window;
 };
 
+var util;
+
+var inspect;
+
 if (inNodeP()) {
-    if ('undefined' === typeof util) {
-        var util = require('util');
-    };
-    function inspect(x) {
+    util = require('util');
+    inspect = function (x) {
         return util.inspect(x);
     };
 } else {
-    function inspect(x) {
+    inspect = function (x) {
         return x.toString();
     };
 };
