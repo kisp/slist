@@ -90,33 +90,37 @@ function Cons(a, b) {
     return;
 };
 
-if (inNodeP()) {
-    Cons.prototype[util.inspect.custom] = function () {
-        var listToArray = function (list) {
-            var result = [];
-            var list = list;
-            while (true) {
-                loopContinue230: {
-                    if (list === null) {
-                        return result;
-                    } else {
-                        result.push(car(list));
-                        var _js4 = cdr(list);
-                        list = _js4;
-                        __PS_MV_REG = [];
-                        break loopContinue230;
-                    };
+function percentinspectCons() {
+    var listToArray = function (list) {
+        var result = [];
+        var list = list;
+        while (true) {
+            loopContinue230: {
+                if (list === null) {
+                    return result;
+                } else {
+                    result.push(car(list));
+                    var _js4 = cdr(list);
+                    list = _js4;
+                    __PS_MV_REG = [];
+                    break loopContinue230;
                 };
             };
         };
-        if (trueListp(this)) {
-            __PS_MV_REG = [];
-            return '(' + listToArray(this).map(inspect).join(' ') + ')';
-        } else {
-            __PS_MV_REG = [];
-            return '(' + inspect(this.percentcar) + ' . ' + inspect(this.percentcdr) + ')';
-        };
     };
+    if (trueListp(this)) {
+        __PS_MV_REG = [];
+        return '(' + listToArray(this).map(inspect).join(' ') + ')';
+    } else {
+        __PS_MV_REG = [];
+        return '(' + inspect(this.percentcar) + ' . ' + inspect(this.percentcdr) + ')';
+    };
+};
+
+if (inNodeP()) {
+    Cons.prototype[util.inspect.custom] = percentinspectCons;
+} else {
+    Cons.prototype.toString = percentinspectCons;
 };
 
 Cons.prototype.car = function () {
