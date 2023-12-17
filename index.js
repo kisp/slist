@@ -2,12 +2,26 @@
 
 var __PS_MV_REG;
 
-if ('undefined' === typeof util) {
-    var util = require('util');
+function inBrowserP() {
+    __PS_MV_REG = [];
+    return !inNodeP();
 };
 
-function inspect(x) {
-    return util.inspect(x);
+function inNodeP() {
+    return !window;
+};
+
+if (inNodeP()) {
+    if ('undefined' === typeof util) {
+        var util = require('util');
+    };
+    function inspect(x) {
+        return util.inspect(x);
+    };
+} else {
+    function inspect(x) {
+        return x.toString();
+    };
 };
 
 var mytests = {  };
@@ -74,30 +88,32 @@ function Cons(a, b) {
     return;
 };
 
-Cons.prototype[util.inspect.custom] = function () {
-    var listToArray = function (list) {
-        var result = [];
-        var list = list;
-        while (true) {
-            loopContinue230: {
-                if (list === null) {
-                    return result;
-                } else {
-                    result.push(car(list));
-                    var _js4 = cdr(list);
-                    list = _js4;
-                    __PS_MV_REG = [];
-                    break loopContinue230;
+if (inNodeP()) {
+    Cons.prototype[util.inspect.custom] = function () {
+        var listToArray = function (list) {
+            var result = [];
+            var list = list;
+            while (true) {
+                loopContinue230: {
+                    if (list === null) {
+                        return result;
+                    } else {
+                        result.push(car(list));
+                        var _js4 = cdr(list);
+                        list = _js4;
+                        __PS_MV_REG = [];
+                        break loopContinue230;
+                    };
                 };
             };
         };
-    };
-    if (trueListp(this)) {
-        __PS_MV_REG = [];
-        return '(' + listToArray(this).map(inspect).join(' ') + ')';
-    } else {
-        __PS_MV_REG = [];
-        return '(' + inspect(this.percentcar) + ' . ' + inspect(this.percentcdr) + ')';
+        if (trueListp(this)) {
+            __PS_MV_REG = [];
+            return '(' + listToArray(this).map(inspect).join(' ') + ')';
+        } else {
+            __PS_MV_REG = [];
+            return '(' + inspect(this.percentcar) + ' . ' + inspect(this.percentcdr) + ')';
+        };
     };
 };
 
