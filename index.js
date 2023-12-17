@@ -660,4 +660,4 @@ mytests['length!.1'] = function (pass) {
 };
 
 pr(runTests());
-export { cons, car, cdr, listbang, atom, consp, filter };
+export { inspect, cons, car, cdr, listbang, atom, consp, filter };
