@@ -22,7 +22,11 @@ if (inNodeP()) {
     };
 } else {
     inspect = function (x) {
-        return x.toString();
+        if (x === null) {
+            return 'null';
+        } else {
+            return x.toString();
+        };
     };
 };
 
@@ -314,30 +318,41 @@ mytests['test.3'] = function (pass) {
         var message36 = 'Expected (INSPECT (LIST! (LIST! 1 2) (LIST! 3 4) (LIST! 5 6))) to eval to \"((1 2) (3 4) (5 6))\", but it was ' + inspect(result34);
         throw new MyTestFailure(message36);
     };
-    var result37 = inspect(listbang('foo', 'bar'));
-    var expectedValue38 = '(\'foo\' \'bar\')';
-    if (expectedValue38 === result37) {
-        pass();
+    if (inNodeP()) {
+        var result37 = inspect(listbang('foo', 'bar'));
+        var expectedValue38 = '(\'foo\' \'bar\')';
+        if (expectedValue38 === result37) {
+            pass();
+        } else {
+            var message39 = 'Expected (INSPECT (LIST! \"foo\" \"bar\")) to eval to \"(\'foo\' \'bar\')\", but it was ' + inspect(result37);
+            throw new MyTestFailure(message39);
+        };
     } else {
-        var message39 = 'Expected (INSPECT (LIST! \"foo\" \"bar\")) to eval to \"(\'foo\' \'bar\')\", but it was ' + inspect(result37);
-        throw new MyTestFailure(message39);
+        var result40 = inspect(listbang('foo', 'bar'));
+        var expectedValue41 = '(foo bar)';
+        if (expectedValue41 === result40) {
+            pass();
+        } else {
+            var message42 = 'Expected (INSPECT (LIST! \"foo\" \"bar\")) to eval to \"(foo bar)\", but it was ' + inspect(result40);
+            throw new MyTestFailure(message42);
+        };
     };
-    var result40 = inspect(listbang({ 'foo' : 1, 'bar' : 2 }));
-    var expectedValue41 = '({ foo: 1, bar: 2 })';
-    if (expectedValue41 === result40) {
-        pass();
-    } else {
-        var message42 = 'Expected (INSPECT (LIST! (CREATE :FOO 1 :BAR 2))) to eval to \"({ foo: 1, bar: 2 })\", but it was ' + inspect(result40);
-        throw new MyTestFailure(message42);
-    };
-    var result43 = inspect(listbang({ 'foo' : listbang(1, 2, 3), 'bar' : listbang(10, 20) }));
-    var expectedValue44 = '({ foo: (1 2 3), bar: (10 20) })';
+    var result43 = inspect(listbang({ 'foo' : 1, 'bar' : 2 }));
+    var expectedValue44 = '({ foo: 1, bar: 2 })';
     if (expectedValue44 === result43) {
+        pass();
+    } else {
+        var message45 = 'Expected (INSPECT (LIST! (CREATE :FOO 1 :BAR 2))) to eval to \"({ foo: 1, bar: 2 })\", but it was ' + inspect(result43);
+        throw new MyTestFailure(message45);
+    };
+    var result46 = inspect(listbang({ 'foo' : listbang(1, 2, 3), 'bar' : listbang(10, 20) }));
+    var expectedValue47 = '({ foo: (1 2 3), bar: (10 20) })';
+    if (expectedValue47 === result46) {
         __PS_MV_REG = [];
         return pass();
     } else {
-        var message45 = 'Expected (INSPECT (LIST! (CREATE :FOO (LIST! 1 2 3) :BAR (LIST! 10 20)))) to eval to \"({ foo: (1 2 3), bar: (10 20) })\", but it was ' + inspect(result43);
-        throw new MyTestFailure(message45);
+        var message48 = 'Expected (INSPECT (LIST! (CREATE :FOO (LIST! 1 2 3) :BAR (LIST! 10 20)))) to eval to \"({ foo: (1 2 3), bar: (10 20) })\", but it was ' + inspect(result46);
+        throw new MyTestFailure(message48);
     };
 };
 
@@ -369,26 +384,26 @@ mytests['map.1'] = function (pass) {
         var message = 'Expected (MAP (LAMBDA (X) X) NIL) to eval to NIL, but it was ' + inspect(result);
         throw new MyTestFailure(message);
     };
-    var result46 = inspect(map(function (x) {
-        return x + 1;
-    }, listbang(1)));
-    var expectedValue47 = '(2)';
-    if (expectedValue47 === result46) {
-        pass();
-    } else {
-        var message48 = 'Expected (INSPECT (MAP (LAMBDA (X) (1+ X)) (LIST! 1))) to eval to \"(2)\", but it was ' + inspect(result46);
-        throw new MyTestFailure(message48);
-    };
     var result49 = inspect(map(function (x) {
         return x + 1;
-    }, listbang(0, 1, 2)));
-    var expectedValue50 = '(1 2 3)';
+    }, listbang(1)));
+    var expectedValue50 = '(2)';
     if (expectedValue50 === result49) {
+        pass();
+    } else {
+        var message51 = 'Expected (INSPECT (MAP (LAMBDA (X) (1+ X)) (LIST! 1))) to eval to \"(2)\", but it was ' + inspect(result49);
+        throw new MyTestFailure(message51);
+    };
+    var result52 = inspect(map(function (x) {
+        return x + 1;
+    }, listbang(0, 1, 2)));
+    var expectedValue53 = '(1 2 3)';
+    if (expectedValue53 === result52) {
         __PS_MV_REG = [];
         return pass();
     } else {
-        var message51 = 'Expected (INSPECT (MAP (LAMBDA (X) (1+ X)) (LIST! 0 1 2))) to eval to \"(1 2 3)\", but it was ' + inspect(result49);
-        throw new MyTestFailure(message51);
+        var message54 = 'Expected (INSPECT (MAP (LAMBDA (X) (1+ X)) (LIST! 0 1 2))) to eval to \"(1 2 3)\", but it was ' + inspect(result52);
+        throw new MyTestFailure(message54);
     };
 };
 
@@ -401,38 +416,38 @@ mytests['evenp/oddp.1'] = function (pass) {
         var message = 'Expected (EVENP 0) to eval to T, but it was ' + inspect(result);
         throw new MyTestFailure(message);
     };
-    var result52 = 0 % 2 || false;
-    var expectedValue53 = false;
-    if (expectedValue53 === result52) {
-        pass();
-    } else {
-        var message54 = 'Expected (OR (ODDP 0) F) to eval to F (of value ' + inspect(expectedValue53) + '), but it was ' + inspect(result52);
-        throw new MyTestFailure(message54);
-    };
-    var result55 = !(2 % 2);
-    var expectedValue56 = true;
+    var result55 = 0 % 2 || false;
+    var expectedValue56 = false;
     if (expectedValue56 === result55) {
         pass();
     } else {
-        var message57 = 'Expected (EVENP 2) to eval to T, but it was ' + inspect(result55);
+        var message57 = 'Expected (OR (ODDP 0) F) to eval to F (of value ' + inspect(expectedValue56) + '), but it was ' + inspect(result55);
         throw new MyTestFailure(message57);
     };
-    var result58 = !(3 % 2);
-    var expectedValue59 = false;
+    var result58 = !(2 % 2);
+    var expectedValue59 = true;
     if (expectedValue59 === result58) {
         pass();
     } else {
-        var message60 = 'Expected (EVENP 3) to eval to F (of value ' + inspect(expectedValue59) + '), but it was ' + inspect(result58);
+        var message60 = 'Expected (EVENP 2) to eval to T, but it was ' + inspect(result58);
         throw new MyTestFailure(message60);
     };
-    var result61 = 3 % 2 && true;
-    var expectedValue62 = true;
+    var result61 = !(3 % 2);
+    var expectedValue62 = false;
     if (expectedValue62 === result61) {
+        pass();
+    } else {
+        var message63 = 'Expected (EVENP 3) to eval to F (of value ' + inspect(expectedValue62) + '), but it was ' + inspect(result61);
+        throw new MyTestFailure(message63);
+    };
+    var result64 = 3 % 2 && true;
+    var expectedValue65 = true;
+    if (expectedValue65 === result64) {
         __PS_MV_REG = [];
         return pass();
     } else {
-        var message63 = 'Expected (AND (ODDP 3) T) to eval to T, but it was ' + inspect(result61);
-        throw new MyTestFailure(message63);
+        var message66 = 'Expected (AND (ODDP 3) T) to eval to T, but it was ' + inspect(result64);
+        throw new MyTestFailure(message66);
     };
 };
 
@@ -441,16 +456,16 @@ function filter(fn, list) {
         var list = list;
         var acc = null;
         while (true) {
-            loopContinue429: {
+            loopContinue435: {
                 if (list === null) {
                     return acc;
                 } else {
-                    var _js66 = cdr(list);
-                    var _js67 = cons(car(list), acc);
-                    list = _js66;
-                    acc = _js67;
+                    var _js69 = cdr(list);
+                    var _js70 = cons(car(list), acc);
+                    list = _js69;
+                    acc = _js70;
                     __PS_MV_REG = [];
-                    break loopContinue429;
+                    break loopContinue435;
                 };
             };
         };
@@ -459,25 +474,25 @@ function filter(fn, list) {
         var list = list;
         var acc = acc;
         while (true) {
-            loopContinue445: {
+            loopContinue451: {
                 if (list === null) {
                     __PS_MV_REG = [];
                     return rev(acc);
                 } else {
                     if (fn(car(list))) {
-                        var _js66 = cdr(list);
-                        var _js67 = cons(car(list), acc);
-                        list = _js66;
-                        acc = _js67;
+                        var _js69 = cdr(list);
+                        var _js70 = cons(car(list), acc);
+                        list = _js69;
+                        acc = _js70;
                         __PS_MV_REG = [];
-                        break loopContinue445;
+                        break loopContinue451;
                     } else {
-                        var _js68 = cdr(list);
-                        var _js69 = acc;
-                        list = _js68;
-                        acc = _js69;
+                        var _js71 = cdr(list);
+                        var _js72 = acc;
+                        list = _js71;
+                        acc = _js72;
                         __PS_MV_REG = [];
-                        break loopContinue445;
+                        break loopContinue451;
                     };
                 };
             };
@@ -498,42 +513,42 @@ mytests['filter.1'] = function (pass) {
         var message = 'Expected (INSPECT (FILTER (LAMBDA (X) (EVENP X)) (LIST! 0 7 8 8 43 -4))) to eval to \"(0 8 8 -4)\", but it was ' + inspect(result);
         throw new MyTestFailure(message);
     };
-    var result64 = inspect(filter(function (x) {
-        return !(x % 2);
-    }, makeList(60000, 1)));
-    var expectedValue65 = 'null';
-    if (expectedValue65 === result64) {
-        pass();
-    } else {
-        var message66 = 'Expected (INSPECT (FILTER (LAMBDA (X) (EVENP X)) (MAKE-LIST 60000 1))) to eval to \"null\", but it was ' + inspect(result64);
-        throw new MyTestFailure(message66);
-    };
     var result67 = inspect(filter(function (x) {
         return !(x % 2);
-    }, cons(2, makeList(60000, 1))));
-    var expectedValue68 = '(2)';
+    }, makeList(60000, 1)));
+    var expectedValue68 = 'null';
     if (expectedValue68 === result67) {
         pass();
     } else {
-        var message69 = 'Expected (INSPECT (FILTER (LAMBDA (X) (EVENP X)) (CONS 2 (MAKE-LIST 60000 1)))) to eval to \"(2)\", but it was ' + inspect(result67);
+        var message69 = 'Expected (INSPECT (FILTER (LAMBDA (X) (EVENP X)) (MAKE-LIST 60000 1))) to eval to \"null\", but it was ' + inspect(result67);
         throw new MyTestFailure(message69);
     };
-    var result70 = inspect(lengthbang(filter(function (x) {
+    var result70 = inspect(filter(function (x) {
+        return !(x % 2);
+    }, cons(2, makeList(60000, 1))));
+    var expectedValue71 = '(2)';
+    if (expectedValue71 === result70) {
+        pass();
+    } else {
+        var message72 = 'Expected (INSPECT (FILTER (LAMBDA (X) (EVENP X)) (CONS 2 (MAKE-LIST 60000 1)))) to eval to \"(2)\", but it was ' + inspect(result70);
+        throw new MyTestFailure(message72);
+    };
+    var result73 = inspect(lengthbang(filter(function (x) {
         return !(x % 2);
     }, makeList(60000, 0))));
-    var expectedValue71 = '60000';
-    if (expectedValue71 === result70) {
+    var expectedValue74 = '60000';
+    if (expectedValue74 === result73) {
         __PS_MV_REG = [];
         return pass();
     } else {
-        var message72 = 'Expected (INSPECT (LENGTH! (FILTER (LAMBDA (X) (EVENP X)) (MAKE-LIST 60000 0)))) to eval to \"60000\", but it was ' + inspect(result70);
-        throw new MyTestFailure(message72);
+        var message75 = 'Expected (INSPECT (LENGTH! (FILTER (LAMBDA (X) (EVENP X)) (MAKE-LIST 60000 0)))) to eval to \"60000\", but it was ' + inspect(result73);
+        throw new MyTestFailure(message75);
     };
 };
 
 function makeList(n, fill) {
     var list = null;
-    for (var _js73 = 0; _js73 < n; _js73 += 1) {
+    for (var _js76 = 0; _js76 < n; _js76 += 1) {
         list = cons(fill, list);
     };
     __PS_MV_REG = [];
@@ -549,14 +564,26 @@ mytests['make-list.1'] = function (pass) {
         var message = 'Expected (INSPECT (MAKE-LIST 3 1)) to eval to \"(1 1 1)\", but it was ' + inspect(result);
         throw new MyTestFailure(message);
     };
-    var result74 = inspect(makeList(5, {  }));
-    var expectedValue75 = '({} {} {} {} {})';
-    if (expectedValue75 === result74) {
-        __PS_MV_REG = [];
-        return pass();
+    if (inNodeP()) {
+        var result77 = inspect(makeList(5, {  }));
+        var expectedValue78 = '({} {} {} {} {})';
+        if (expectedValue78 === result77) {
+            __PS_MV_REG = [];
+            return pass();
+        } else {
+            var message79 = 'Expected (INSPECT (MAKE-LIST 5 (CREATE))) to eval to \"({} {} {} {} {})\", but it was ' + inspect(result77);
+            throw new MyTestFailure(message79);
+        };
     } else {
-        var message76 = 'Expected (INSPECT (MAKE-LIST 5 (CREATE))) to eval to \"({} {} {} {} {})\", but it was ' + inspect(result74);
-        throw new MyTestFailure(message76);
+        var result80 = inspect(makeList(5, {  }));
+        var expectedValue81 = '([object Object] [object Object] [object Object] [object Object] [object Object])';
+        if (expectedValue81 === result80) {
+            __PS_MV_REG = [];
+            return pass();
+        } else {
+            var message82 = 'Expected (INSPECT (MAKE-LIST 5 (CREATE))) to eval to \"([object Object] [object Object] [object Object] [object Object] [object Object])\", but it was ' + inspect(result80);
+            throw new MyTestFailure(message82);
+        };
     };
 };
 
@@ -565,16 +592,16 @@ function lengthbang(list) {
         var list = list;
         var count = 0;
         while (true) {
-            loopContinue504: {
+            loopContinue522: {
                 if (list === null) {
                     return count;
                 } else {
-                    var _js79 = cdr(list);
-                    var _js80 = count + 1;
-                    list = _js79;
-                    count = _js80;
+                    var _js85 = cdr(list);
+                    var _js86 = count + 1;
+                    list = _js85;
+                    count = _js86;
                     __PS_MV_REG = [];
-                    break loopContinue504;
+                    break loopContinue522;
                 };
             };
         };
@@ -592,30 +619,30 @@ mytests['length!.1'] = function (pass) {
         var message = 'Expected (INSPECT (LENGTH! (LIST!))) to eval to \"0\", but it was ' + inspect(result);
         throw new MyTestFailure(message);
     };
-    var result77 = inspect(lengthbang(listbang(1)));
-    var expectedValue78 = '1';
-    if (expectedValue78 === result77) {
-        pass();
-    } else {
-        var message79 = 'Expected (INSPECT (LENGTH! (LIST! 1))) to eval to \"1\", but it was ' + inspect(result77);
-        throw new MyTestFailure(message79);
-    };
-    var result80 = inspect(lengthbang(listbang(1, 2, 3)));
-    var expectedValue81 = '3';
-    if (expectedValue81 === result80) {
-        pass();
-    } else {
-        var message82 = 'Expected (INSPECT (LENGTH! (LIST! 1 2 3))) to eval to \"3\", but it was ' + inspect(result80);
-        throw new MyTestFailure(message82);
-    };
-    var result83 = inspect(lengthbang(makeList(60000, 1)));
-    var expectedValue84 = '60000';
+    var result83 = inspect(lengthbang(listbang(1)));
+    var expectedValue84 = '1';
     if (expectedValue84 === result83) {
+        pass();
+    } else {
+        var message85 = 'Expected (INSPECT (LENGTH! (LIST! 1))) to eval to \"1\", but it was ' + inspect(result83);
+        throw new MyTestFailure(message85);
+    };
+    var result86 = inspect(lengthbang(listbang(1, 2, 3)));
+    var expectedValue87 = '3';
+    if (expectedValue87 === result86) {
+        pass();
+    } else {
+        var message88 = 'Expected (INSPECT (LENGTH! (LIST! 1 2 3))) to eval to \"3\", but it was ' + inspect(result86);
+        throw new MyTestFailure(message88);
+    };
+    var result89 = inspect(lengthbang(makeList(60000, 1)));
+    var expectedValue90 = '60000';
+    if (expectedValue90 === result89) {
         __PS_MV_REG = [];
         return pass();
     } else {
-        var message85 = 'Expected (INSPECT (LENGTH! (MAKE-LIST 60000 1))) to eval to \"60000\", but it was ' + inspect(result83);
-        throw new MyTestFailure(message85);
+        var message91 = 'Expected (INSPECT (LENGTH! (MAKE-LIST 60000 1))) to eval to \"60000\", but it was ' + inspect(result89);
+        throw new MyTestFailure(message91);
     };
 };
 
