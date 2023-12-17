@@ -1,0 +1,20 @@
+{
+  "name": "slist",
+  "version": "0.0.1",
+  "description": "A simple, singly-linked, scheme-like list implementation based on SRFI-1 for JavaScript and TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kisp/slist.git"
+  },
+  "keywords": ["list"],
+  "author": "Kilian Sprotte <kilian.sprotte@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kisp/slist/issues"
+  },
+  "homepage": "https://github.com/kisp/slist#readme"
+}
