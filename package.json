@@ -1,6 +1,6 @@
 {
   "name": "tiny-slist",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A simple, singly-linked, scheme-like list implementation based on SRFI-1 for JavaScript and TypeScript.",
   "main": "index-cjs.js",
   "module": "index-esm.js",
@@ -38,5 +38,8 @@
   "bugs": {
     "url": "https://github.com/kisp/tiny-slist/issues"
   },
-  "homepage": "https://github.com/kisp/tiny-slist#readme"
+  "homepage": "https://github.com/kisp/tiny-slist#readme",
+  "devDependencies": {
+    "rollup": "^4.9.1"
+  }
 }
