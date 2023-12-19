@@ -1,8 +1,14 @@
 {
   "name": "tiny-slist",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A simple, singly-linked, scheme-like list implementation based on SRFI-1 for JavaScript and TypeScript.",
-  "main": "index.js",
+  "main": "index-cjs.js",
+  "module": "index-esm.js",
+  "exports": {
+    "require": "./index-cjs.js",
+    "import": "./index-esm.js",
+    "default": "./index-esm.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
